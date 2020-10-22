@@ -22,7 +22,7 @@ RUN apt-get update -y && apt-get install -y gzip hostname libc6 openjdk-11-jre-h
 ADD tools /opt/jboss/tools
 RUN /opt/jboss/tools/build-keycloak.sh
 
-COPY ./oauth2-demo-realm-config.json /config-files/oauth2-demo-realm-config.json
+COPY ./export.json /config-files/oauth2-demo-realm-config.json
 COPY ./custom-entrypoint.sh /config-files/custom-entrypoint.sh
 
 RUN chmod 777 /config-files
