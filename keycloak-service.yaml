@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: keycloak-service
+  name: keycloak
   labels:
-    app: keycloak-service
+    app: keycloak
 spec:
   selector:
     matchLabels:
-      app: keycloak-service
+      app: keycloak
   replicas: 1
   template:
     metadata:
       labels:
-        app: keycloak-service
+        app: keycloak
     spec:
       containers:
-        - name: keycloak-service
-          image: gcr.io/ops-terraform-env-cicd/enterprise/keycloak:0.0.25
+        - name: keycloak
+          image: gcr.io/ops-terraform-env-cicd/enterprise/keycloak:0.0.1
           args:
             - -b 0.0.0.0
             - -Dkeycloak.migration.action=import

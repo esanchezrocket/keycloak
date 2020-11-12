@@ -11,3 +11,12 @@ exec -it kc /opt/jboss/keycloak/bin/standalone.sh \
 -Dkeycloak.migration.realmName=master \
 -Dkeycloak.migration.usersExportStrategy=REALM_FILE \
 -Dkeycloak.migration.file=/tmp/master_export.json
+
+docker exec -it zen_noyce /opt/jboss/keycloak/bin/standalone.sh \
+-Djboss.socket.binding.port-offset=100 -Dkeycloak.migration.action=export \
+-Dkeycloak.migration.provider=singleFile \
+-Dkeycloak.migration.realmName=master \
+-Dkeycloak.migration.usersExportStrategy=REALM_FILE \
+-Dkeycloak.migration.file=/tmp/master_real_export.json
+
+docker cp zen_noyce:/tmp/master_real_export.json ~/workspace/keycloak/master_realm_export.json
