@@ -549,25 +549,49 @@
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "secret": "$default_client_secret",
-      "redirectUris": [],
+      "redirectUris": [
+        "http://localhost:7999/login/oauth2/code/keycloak-pr",
+        "http://localhost:8080/login/oauth2/code/keycloak-pr",
+        "http://keycloak-service/login/oauth2/code/keycloak-pr",
+        "https://api-dev.rocketlawyer.com/${pod_namespace}/login/oauth2/code/keycloak-pr",
+        "https://${pod_namespace}.api-gateway.dev.rktlyr.com/enterprise-sso/login/oauth2/code/keycloak-pr",
+        "http://api-dev.rocketlawyer.com/${pod_namespace}/login/oauth2/code/keycloak-pr",
+        "http://${pod_namespace}.api-gateway.dev.rktlyr.com/enterprise-sso/login/oauth2/code/keycloak-pr",
+        "*"
+      ],
       "webOrigins": [],
       "notBefore": 0,
       "bearerOnly": false,
-      "consentRequired": false,
-      "standardFlowEnabled": false,
+      "consentRequired": true,
+      "standardFlowEnabled": true,
       "implicitFlowEnabled": false,
-      "directAccessGrantsEnabled": true,
+      "directAccessGrantsEnabled": false,
       "serviceAccountsEnabled": false,
-      "publicClient": true,
+      "publicClient": false,
       "frontchannelLogout": false,
       "protocol": "openid-connect",
-      "attributes": {},
+      "attributes": {
+        "saml.assertion.signature": "false",
+        "saml.force.post.binding": "false",
+        "saml.multivalued.roles": "false",
+        "saml.encrypt": "false",
+        "saml.server.signature": "false",
+        "saml.server.signature.keyinfo.ext": "false",
+        "exclude.session.state.from.auth.response": "false",
+        "saml_force_name_id_format": "false",
+        "saml.client.signature": "false",
+        "tls.client.certificate.bound.access.tokens": "false",
+        "saml.authnstatement": "false",
+        "display.on.consent.screen": "true",
+        "saml.onetimeuse.condition": "false"
+      },
       "authenticationFlowBindingOverrides": {},
-      "fullScopeAllowed": false,
-      "nodeReRegistrationTimeout": 0,
+      "fullScopeAllowed": true,
+      "nodeReRegistrationTimeout": -1,
       "defaultClientScopes": [
         "web-origins",
         "role_list",
+        "enterprise-sso-pr",
         "roles",
         "profile",
         "email"
@@ -1144,6 +1168,16 @@
       ]
     },
     {
+      "id": "5e90ddb3-65df-4668-bcca-d1e5e315c7c7",
+      "name": "enterprise-sso-pr",
+      "description": "Enterprise Sso Prototype",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "true"
+      }
+    },
+    {
       "id": "b13bd2b8-ad16-4dca-87c0-7436dc128ceb",
       "name": "microprofile-jwt",
       "description": "Microprofile - JWT built-in scope",
@@ -1596,13 +1630,13 @@
         "config": {
           "allowed-protocol-mapper-types": [
             "oidc-usermodel-property-mapper",
+            "saml-user-property-mapper",
+            "saml-role-list-mapper",
             "oidc-full-name-mapper",
+            "oidc-address-mapper",
             "saml-user-attribute-mapper",
             "oidc-sha256-pairwise-sub-mapper",
-            "saml-user-property-mapper",
-            "oidc-usermodel-attribute-mapper",
-            "saml-role-list-mapper",
-            "oidc-address-mapper"
+            "oidc-usermodel-attribute-mapper"
           ]
         }
       },
@@ -2335,7 +2369,12 @@
   "resetCredentialsFlow": "reset credentials",
   "clientAuthenticationFlow": "clients",
   "dockerAuthenticationFlow": "docker auth",
-  "attributes": {},
+  "attributes": {
+    "clientOfflineSessionMaxLifespan": "0",
+    "clientSessionIdleTimeout": "0",
+    "clientSessionMaxLifespan": "0",
+    "clientOfflineSessionIdleTimeout": "0"
+  },
   "keycloakVersion": "11.0.2",
   "userManagedAccessAllowed": false
 }
