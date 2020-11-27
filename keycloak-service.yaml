@@ -1,22 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: keycloak
+  name: keycloak-service
   labels:
-    app: keycloak
+    app: keycloak-service
 spec:
   selector:
     matchLabels:
-      app: keycloak
+      app: keycloak-service
   replicas: 1
   template:
     metadata:
       labels:
-        app: keycloak
+        app: keycloak-service
     spec:
       containers:
         - name: keycloak
-          image: gcr.io/ops-terraform-env-cicd/enterprise/keycloak:0.0.1
+          image: gcr.io/ops-terraform-env-cicd/enterprise/keycloak:0.0.2
+          imagePullPolicy: Always
           args:
             - -b 0.0.0.0
             - -Dkeycloak.migration.action=import
@@ -30,10 +31,8 @@ spec:
               value: admin
             - name: DB_VENDOR
               value: h2
-            - name: default_client_secret
-              value: 2831f22c-6def-49da-ac3c-ffd256decff0
-            - name: pod_namespace
-              value: esanchez
+            - name: ent_sso_base_url
+              value: https://api-dev.rocketlawyer.com/esanchez-2/v1
           ports:
             - name: kc-container
               containerPort: 8080
@@ -49,8 +48,8 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: keycloak
-  name: keycloak
+    app: keycloak-service
+  name: keycloak-service
 spec:
   ports:
     - name: web
@@ -58,21 +57,21 @@ spec:
       protocol: TCP
       targetPort: kc-container
   selector:
-    app: keycloak
+    app: keycloak-service
   type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: keycloak
+  name: keycloak-service
   annotations:
     kubernetes.io/ingress.class: "api-gateway"
 spec:
   rules:
-    - host: esanchez-keycloak.api-gateway.dev.rktlyr.com
+    - host: esanchez-2-keycloak.api-gateway.dev.rktlyr.com
       http:
         paths:
           - path: /
             backend:
-              serviceName: keycloak
+              serviceName: keycloak-service
               servicePort: 7999
