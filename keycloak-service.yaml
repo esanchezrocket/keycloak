@@ -47,31 +47,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app: keycloak-service
+  creationTimestamp: null
   name: keycloak-service
 spec:
-  ports:
-    - name: web
-      port: 7999
-      protocol: TCP
-      targetPort: kc-container
+  type: LoadBalancer
   selector:
     app: keycloak-service
-  type: ClusterIP
----
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
-metadata:
-  name: keycloak-service
-  annotations:
-    kubernetes.io/ingress.class: "api-gateway"
-spec:
-  rules:
-    - host: esanchez-2-keycloak.api-gateway.dev.rktlyr.com
-      http:
-        paths:
-          - path: /
-            backend:
-              serviceName: keycloak-service
-              servicePort: 7999
+  ports:
+    - protocol: TCP
+      port: 7999
+      targetPort: kc-container
