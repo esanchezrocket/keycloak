@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: keycloak-service
+  name: keycloak
   labels:
-    app: keycloak-service
+    app: keycloak
 spec:
   selector:
     matchLabels:
-      app: keycloak-service
+      app: keycloak
   replicas: 1
   template:
     metadata:
       labels:
-        app: keycloak-service
+        app: keycloak
     spec:
       containers:
         - name: keycloak
@@ -52,7 +52,7 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    app: keycloak-service
+    app: keycloak
   ports:
     - protocol: TCP
       port: 7999
