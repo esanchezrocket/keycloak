@@ -43,3 +43,7 @@ make sure to pass the following parameters to container spec:
             - -Dkeycloak.migration.file=/config-files/oauth2-demo-realm-config.json
             - -Dkeycloak.migration.strategy=IGNORE_EXISTING
 ```
+
+## Procedure
+- Pick or create a namespace to deploy keycloak, then `kubens` to it
+- Deploy Keycloak with

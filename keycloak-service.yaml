@@ -32,7 +32,7 @@ spec:
             - name: DB_VENDOR
               value: h2
             - name: ent_sso_base_url
-              value: https://api-dev.rocketlawyer.com/esanchez-2/v1
+              value: https://api-dev.rocketlawyer.com/_NAMESPACE_/v1
           ports:
             - name: kc-container
               containerPort: 8080
