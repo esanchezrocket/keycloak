@@ -43,3 +43,24 @@ make sure to pass the following parameters to container spec:
             - -Dkeycloak.migration.file=/config-files/oauth2-demo-realm-config.json
             - -Dkeycloak.migration.strategy=IGNORE_EXISTING
 ```
+
+## Procedure
+- Pick or create a namespace to deploy keycloak, then `kubens` to it
+- Deploy Keycloak with
+  ```
+  kubectl create -f keycloak.yaml
+  ```
+- Wait until IP address gets assigned
+- Check IP address. For instance:
+  ```
+  kubectl get services | grep keycloak | awk '{print $4}'
+  34.105.61.169
+  ```
+- Go to console with 34.105.61.169:7999
+- Alternatively, you can port forward instead of using the IP address:
+  ```
+  kubectl port-forward svc/keycloak-service 7999:7999
+  ```
+  Point your browser to `http://localhost:7999` and log into admin console with `admin/admin`
+- We also noticed that in order to make it work with IP address, you have to set Root URL of `security-admin-console` client to `${authAdminUrl}`
+  
